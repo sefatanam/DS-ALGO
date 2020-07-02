@@ -7,7 +7,10 @@ namespace LinkedList
     {
         static void Main(string[] args)
         {
-            NodeList LinkedList = new NodeList();
+
+
+
+            TNodeList<object> LinkedList = new TNodeList<object>();
             LinkedList.AddFirst("E");
             LinkedList.AddFirst("B");
             LinkedList.AddFirst("C");
@@ -16,8 +19,10 @@ namespace LinkedList
             LinkedList.AddLast("2");
             LinkedList.AddLast("3");
             LinkedList.AddLast("4");
-            //LinkedList.Remove("5");
-           LinkedList.ReadAll();
+            LinkedList.Update("4", "update");
+            LinkedList.Update("E", "Anam");
+            LinkedList.Update("D", "Sefat");
+            LinkedList.ReadAll();
             ReadKey();
         }
     }
