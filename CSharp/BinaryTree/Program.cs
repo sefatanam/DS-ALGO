@@ -7,9 +7,11 @@ namespace BinaryTree
     {
         static void Main(string[] args)
         {
-            int[] sortedNumber = { 2, 4, 7, 12, 15, 19, 46, 65, 66, 67, 68, 69, 70, 71, 74, 89, 111, 112, 114, 223, 445, 446, 555, 556, 558, 668, 676, 4566, 334234, 2344356, 456434, 23434534, 234543246, 2345462, 323234422, 333333333, 234324534 };
-            int g = BinarySearch(sortedNumber, 558);
-            Write($"The number found at : {g} index");
+            int[] sortedNumber = { 10,14,19,26,27,31,33,35,42,44 };
+            int b = BinarySearch(sortedNumber, 31);
+            int r = RecursiveBinarySearch(sortedNumber, 0, sortedNumber.Length - 1, 31);
+            WriteLine($"The number found at : {b} index");
+            WriteLine($"The (using recursion func) number found at : {r} index");
             ReadKey();
         }
 
@@ -20,6 +22,7 @@ namespace BinaryTree
             int left = 0;
             int right = numbers.Length - 1;
             int mid = 0;  // (left+right)/2
+
             int foundElement = 0;
 
             while (right >= left)
@@ -54,7 +57,28 @@ namespace BinaryTree
             return -1;
         }
 
+        private static int RecursiveBinarySearch(int[] numbers,int left =0,int right=0, int num=0)
+        {
+            if (right >= left)
+            {
+                int mid = left + (right - left) / 2;
 
+                if (numbers[mid] > num)
+                {
+                    return RecursiveBinarySearch(numbers, left, mid - 1, num);
+                }
+                else if (numbers[mid] < num)
+                {
+                    return RecursiveBinarySearch(numbers, mid + 1, right, num);
+                }
+                else
+                {
+                    return mid;
+                }
+            }
+
+            return -1;
+        }
 
     }
 }
