@@ -1,50 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BinarySearchTree
 {
     public class TreeNode
     {
-        //property to store the nodes data could be a key and object pair
-        private int data;
-        public int Data
-        {
-            get { return data; }
-        }
+        
+        //property to store the nodes Data could be a key and object pair
+        public int Data { get; set; }
+        public TreeNode RightNode { get; set; } //Right Child
+        public TreeNode LeftNode { get; set; } //left Child
+        public bool IsDeleted { get; set; } //soft delete variable
 
-        private TreeNode rightNode;
-        public TreeNode RightNode
-        {
-            get { return rightNode; }
-            set { rightNode = value; }
-        }//Right Child
-
-        private TreeNode leftNode;
-        public TreeNode LeftNode
-        {
-            get { return leftNode; }
-            set { leftNode = value; }
-        }//left Child
-
-        private bool isDeleted;//soft delete variable
-        public bool IsDeleted
-        {
-            get { return isDeleted; }
-        }
 
         //Node constructor
         public TreeNode (int value)
         {
-            data = value;
+            Data = value;
         }
 
         //Method to set soft delete
         public void Delete ()
         {
-            isDeleted = true;
+            IsDeleted = true;
         }
 
         public TreeNode Find (int value)
@@ -55,18 +32,18 @@ namespace BinarySearchTree
             //loop through this node and all of the children of this node
             while (currentNode != null)
             {
-                //if the current nodes data is equal to the value passed in return it
-                if (value == currentNode.data && isDeleted == false)//soft delete check
+                //if the current nodes Data is equal to the value passed in return it
+                if (value == currentNode.Data && IsDeleted == false)//soft delete check
                 {
                     return currentNode;
                 }
-                else if (value > currentNode.data)//if the value passed in is greater than the current data then go to the right child
+                else if (value > currentNode.Data)//if the value passed in is greater than the current Data then go to the right child
                 {
-                    currentNode = currentNode.rightNode;
+                    currentNode = currentNode.RightNode;
                 }
-                else//otherwise if the value is less than the current nodes data the go to the left child node 
+                else//otherwise if the value is less than the current nodes Data the go to the left child node 
                 {
-                    currentNode = currentNode.leftNode;
+                    currentNode = currentNode.LeftNode;
                 }
             }
             //Node not found
@@ -75,18 +52,18 @@ namespace BinarySearchTree
 
         public TreeNode FindRecursive (int value)
         {
-            //value passed in matches nodes data return the node
-            if (value == data && isDeleted == false)
+            //value passed in matches nodes Data return the node
+            if (value == Data && IsDeleted == false)
             {
                 return this;
             }
-            else if (value < data && leftNode != null)//if the value passed in is less than the current data then go to the left child
+            else if (value < Data && LeftNode != null)//if the value passed in is less than the current Data then go to the left child
             {
-                return leftNode.FindRecursive(value);
+                return LeftNode.FindRecursive(value);
             }
-            else if (rightNode != null)//if its great then go to the right child node
+            else if (RightNode != null)//if its great then go to the right child node
             {
-                return rightNode.FindRecursive(value);
+                return RightNode.FindRecursive(value);
             }
             else
             {
@@ -98,53 +75,53 @@ namespace BinarySearchTree
         //recursively calls insert down the tree until it find an open spot
         public void Insert (int value)
         {
-            //if the value passed in is greater or equal to the data then insert to right node
-            if (value >= data)
+            //if the value passed in is greater or equal to the Data then insert to right node
+            if (value >= Data)
             {   //if right child node is null create one
-                if (rightNode == null)
+                if (RightNode == null)
                 {
-                    rightNode = new TreeNode(value);
+                    RightNode = new TreeNode(value);
                 }
                 else
                 {//if right node is not null recursivly call insert on the right node
-                    rightNode.Insert(value);
+                    RightNode.Insert(value);
                 }
             }
             else
-            {//if the value passed in is less than the data then insert to left node
-                if (leftNode == null)
-                {//if the leftnode is null then create a new node
-                    leftNode = new TreeNode(value);
+            {//if the value passed in is less than the Data then insert to left node
+                if (LeftNode == null)
+                {//if the LeftNode is null then create a new node
+                    LeftNode = new TreeNode(value);
                 }
                 else
                 {//if the left node is not null then recursively call insert on the left node
-                    leftNode.Insert(value);
+                    LeftNode.Insert(value);
                 }
             }
         }
 
         public Nullable<int> SmallestValue ()
         {
-            // once we reach the last left node we return its data
-            if (leftNode == null)
+            // once we reach the last left node we return its Data
+            if (LeftNode == null)
             {
-                return data;
+                return Data;
             }
             else
             {//otherwise keep calling the next left node
-                return leftNode.SmallestValue();
+                return LeftNode.SmallestValue();
             }
         }
 
         internal Nullable<int> LargestValue ()
-        {   // once we reach the last right node we return its data
-            if (rightNode == null)
+        {   // once we reach the last right node we return its Data
+            if (RightNode == null)
             {
-                return data;
+                return Data;
             }
             else
             {//otherwise keep calling the next right node
-                return rightNode.LargestValue();
+                return RightNode.LargestValue();
             }
         }
 
@@ -152,15 +129,15 @@ namespace BinarySearchTree
         //Left->Root->Right Nodes recursively of each subtree 
         public void InOrderTraversal ()
         {
-            //first go to left child its children will be null so we print its data
-            if (leftNode != null)
-                leftNode.InOrderTraversal();
+            //first go to left child its children will be null so we print its Data
+            if (LeftNode != null)
+                LeftNode.InOrderTraversal();
             //Then we print the root node 
-            Console.Write(data + " ");
+            Console.Write(Data + " ");
 
             //Then we go to the right node which will print itself as both its children are null
-            if (rightNode != null)
-                rightNode.InOrderTraversal();
+            if (RightNode != null)
+                RightNode.InOrderTraversal();
         }
 
 
@@ -168,37 +145,37 @@ namespace BinarySearchTree
         public void PreOrderTraversal ()
         {
             //First we print the root node 
-            Console.Write(data + " ");
+            Console.Write(Data + " ");
 
-            //Then go to left child its children will be null so we print its data
-            if (leftNode != null)
-                leftNode.PreOrderTraversal();
+            //Then go to left child its children will be null so we print its Data
+            if (LeftNode != null)
+                LeftNode.PreOrderTraversal();
 
             //Then we go to the right node which will print itself as both its children are null
-            if (rightNode != null)
-                rightNode.PreOrderTraversal();
+            if (RightNode != null)
+                RightNode.PreOrderTraversal();
         }
 
         //Left->Right->Root Nodes recursively of each subtree 
         public void PostorderTraversal ()
         {
-            //First go to left child its children will be null so we print its data
-            if (leftNode != null)
-                leftNode.PostorderTraversal();
+            //First go to left child its children will be null so we print its Data
+            if (LeftNode != null)
+                LeftNode.PostorderTraversal();
 
             //Then we go to the right node which will print itself as both its children are null
-            if (rightNode != null)
-                rightNode.PostorderTraversal();
+            if (RightNode != null)
+                RightNode.PostorderTraversal();
 
             //Then we print the root node 
-            Console.Write(data + " ");
+            Console.Write(Data + " ");
         }
 
 
         public int Height ()
         {
             //return 1 when leaf node is found
-            if (this.leftNode == null && this.rightNode == null)
+            if (this.LeftNode == null && this.RightNode == null)
             {
                 return 1; //found a leaf node
             }
@@ -207,10 +184,10 @@ namespace BinarySearchTree
             int right = 0;
 
             //recursively go through each branch
-            if (this.leftNode != null)
-                left = this.leftNode.Height();
-            if (this.rightNode != null)
-                right = this.rightNode.Height();
+            if (this.LeftNode != null)
+                left = this.LeftNode.Height();
+            if (this.RightNode != null)
+                right = this.RightNode.Height();
 
             //return the greater height of the branch
             if (left > right)
@@ -227,7 +204,7 @@ namespace BinarySearchTree
         public int NumberOfLeafNodes ()
         {
             //return 1 when leaf node is found
-            if (this.leftNode == null && this.rightNode == null)
+            if (this.LeftNode == null && this.RightNode == null)
             {
                 return 1; //found a leaf node
             }
@@ -236,13 +213,13 @@ namespace BinarySearchTree
             int rightLeaves = 0;
 
             //recursively call NumOfLeafNodes returning 1 for each leaf found
-            if (this.leftNode != null)
+            if (this.LeftNode != null)
             {
-                leftLeaves = leftNode.NumberOfLeafNodes();
+                leftLeaves = LeftNode.NumberOfLeafNodes();
             }
-            if (this.rightNode != null)
+            if (this.RightNode != null)
             {
-                rightLeaves = rightNode.NumberOfLeafNodes();
+                rightLeaves = RightNode.NumberOfLeafNodes();
             }
 
             //add values together 
